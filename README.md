@@ -9,6 +9,5 @@ Simple application for a school projet
 * Working on the Landscape and Portrait view mode
 
 ## Authors
-* [0Hub] (https://github.com/0Hub0/) drfh
-* [gDan15] (https://github.com/gDan15) dsrh
-* [0Hub](https://github.com/0Hub0/) - The web framework used
+* [0Hub](https://github.com/0Hub0/) 
+* [gDan15](https://github.com/gDan15) 
