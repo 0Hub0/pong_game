@@ -11,4 +11,4 @@ Simple application for a school projet
 ## Authors
 * [0Hub] (https://github.com/0Hub0/) drfh
 * [gDan15] (https://github.com/gDan15) dsrh
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+* [0Hub](https://github.com/0Hub0/) - The web framework used
