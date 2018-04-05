@@ -12,9 +12,9 @@ Simple application for a school projet
  
   ```
   Android Version : 3.1
-  Gradle Config
-   Version : 4.4
-   Android Plugin Version : 3.1.0
+  Gradle Config :
+    Version : 4.4
+    Android Plugin Version : 3.1.0
   ```
   
 
