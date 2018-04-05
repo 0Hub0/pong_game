@@ -10,12 +10,12 @@ Simple application for a school projet
 
 ## Android Studio Specifications
  
-  ```
+  
   ##### Android Version : 3.1
   Gradle Config :
     Version : 4.4
     Android Plugin Version : 3.1.0
-  ```
+  
   
 
 ## Authors
