@@ -9,9 +9,10 @@ Simple application for a school projet
 * Working on the Landscape and Portrait view mode
 
 ## Android Studio Specifications
- * Version : 3.1 +
- * Gradle Config :  
+ 
   ```
+  Android Version : 3.1
+  Gradle Config
    Version : 4.4
    Android Plugin Version : 3.1.0
   ```
