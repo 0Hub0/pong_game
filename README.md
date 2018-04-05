@@ -11,8 +11,11 @@ Simple application for a school projet
 ## Android Studio Specifications
  * Version : 3.1 +
  * Gradle Config :  
-  ** Version : 4.4
-  ** Android Plugin Version : 3.1.0
+  ```
+   Version : 4.4
+   Android Plugin Version : 3.1.0
+  ```
+  
 
 ## Authors
 * [0Hub](https://github.com/0Hub0/) 
