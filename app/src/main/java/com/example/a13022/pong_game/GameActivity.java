@@ -16,6 +16,7 @@ public class GameActivity extends AppCompatActivity {
         // Get a Display object to access screen details
         Display display = getWindowManager().getDefaultDisplay();
         // Load the resolution into a Point object
+
         Point size = new Point();
         display.getSize(size);
         // Initialize pongView and set it as the view
