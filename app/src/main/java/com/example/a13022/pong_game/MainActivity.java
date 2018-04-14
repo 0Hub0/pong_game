@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         goButton();
         Toast.makeText(MainActivity.this, getUser2(), Toast.LENGTH_SHORT).show();
     }
-    // Creates the popup menu in order to select whether we want to play with another person or solo.
+    // Creates the popup_menu popup_menu in order to select whether we want to play with another person or solo.
     public void popUpMenu(){
         final Button button = findViewById(R.id.button_id);
         final EditText opponent_name = findViewById(R.id.username_opponent);
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener(){
                     public boolean onMenuItemClick(MenuItem item) {
 //                        Toast.makeText(MainActivity.this, "You clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
-                        if(item.getTitle().equals("Multiplayer Player")){
+                        if(item.getTitle().equals("Multiplayer")){
                             opponent_name.setVisibility(View.VISIBLE);
                             button_go.setVisibility(View.VISIBLE);
                         }
