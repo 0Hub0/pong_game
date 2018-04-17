@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         settingsButton();
         goButton();
         Toast.makeText(MainActivity.this, getUser2(), Toast.LENGTH_SHORT).show();
+        this.setTheme(R.style.AppTheme);
     }
     // Creates the popup_menu popup_menu in order to select whether we want to play with another person or solo.
     public void popUpMenu(){
