@@ -1,5 +1,7 @@
 package com.example.a13022.pong_game;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -79,11 +81,17 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                Context context = MainActivity.this;
+                Class destinationClass = SettingsActivity.class;
+                Intent i = new Intent(context,destinationClass);
+
                 //TODO : direction towards the page settings has to be put here
                 Toast.makeText(MainActivity.this, "You clicked the robot DAMN YOU", Toast.LENGTH_SHORT).show();
+                startActivity(i);
             }
         });
     }
+
     public void setUser2(String opponentName){
         this.opponentName = opponentName;
     }
