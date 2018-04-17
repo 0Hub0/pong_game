@@ -17,7 +17,7 @@ import android.os.Handler;
  */
 
 public class PongView extends SurfaceView implements SurfaceHolder.Callback{
-    
+
     private PongThread gameThread;
 
     public PongView(Context context, AttributeSet attributeSet){
@@ -64,7 +64,7 @@ public class PongView extends SurfaceView implements SurfaceHolder.Callback{
                 gameThread.join();
                 retry=false;
             } catch (InterruptedException e) {
-                //....
+                // To finish?
             }
         }
 
