@@ -1,6 +1,6 @@
 # pong_game
 Simple application for a school projet
-
+The program is based on the following tutorial : http://androidgameprogramming.com/programming-a-pong-game/
 ## Application Specifications
 * Multiple Screens
 * Preferences
