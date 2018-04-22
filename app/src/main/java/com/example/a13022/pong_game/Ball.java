@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * Created by Gaetan on 13-04-18.
  */
-
+//TODO : implémenter fonction reset pour repositionner la balle
 public class Ball {
 
     private RectF mRect;
@@ -69,5 +69,21 @@ public class Ball {
     public void increaseVelocity(){
         mXVelocity = mXVelocity + mXVelocity / 10;
         mYVelocity = mYVelocity + mYVelocity / 10;
+    }
+    public void clearObstacleY(float y){
+        mRect.bottom = y;
+        mRect.top = y - mBallHeight;
+    }
+
+    public void clearObstacleX(float x){
+        mRect.left = x;
+        mRect.right = x + mBallWidth;
+    }
+
+    public void reset(int x, int y){
+        mRect.left = x / 2;
+        mRect.top = y - 20;
+        mRect.right = x / 2 + mBallWidth;
+        mRect.bottom = y - 20 - mBallHeight;
     }
 }
