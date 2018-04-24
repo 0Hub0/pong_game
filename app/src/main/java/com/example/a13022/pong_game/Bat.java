@@ -48,9 +48,10 @@ public class Bat {
         mLength = mScreenX / 8;
 
         // 1/25 screen mHeight high
-        mHeight = mScreenY / 25;
+//        mHeight = mScreenY / 25;
+        mHeight = 20;
 
-        // Start mBat in roughly the sceen centre
+        // Start mBat in roughly the screen centre
         mXCoord = mScreenX / 2;
         mYCoord = mScreenY - 20;
 

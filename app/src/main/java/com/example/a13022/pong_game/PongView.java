@@ -43,6 +43,7 @@ public class PongView extends SurfaceView implements Runnable{
 
     // The players mBat
     Bat mBat;
+    Bat mOpponentBat;
 
     // A mBall
     Ball mBall;
@@ -62,7 +63,8 @@ public class PongView extends SurfaceView implements Runnable{
         this.mOurHolder=getHolder();
         this.mPaint=new Paint();
 
-        this.mBat = new Bat(this.mScreenX, this.mScreenY);
+        this.mBat = new Bat(this.mScreenX, this.mScreenY );
+        this.mOpponentBat = new Bat(this.mScreenX, 20);
         // Create a mBall
         mBall = new Ball(mScreenX, mScreenY);
         setupAndRestart();
@@ -74,7 +76,6 @@ public class PongView extends SurfaceView implements Runnable{
             // Capture the current time in milliseconds in startFrameTime
             long startFrameTime = System.currentTimeMillis();
 
-            // Update the frame
             // Update the frame
             if(!mPaused){
                 update();
@@ -97,6 +98,7 @@ public class PongView extends SurfaceView implements Runnable{
     }
     public void setupAndRestart(){
         mBall.reset(this.mScreenY, this.mScreenX);
+
         // if game over reset scores and mLives
         if(this.mLives == 0) {
             this.mScore = 0;
@@ -108,6 +110,7 @@ public class PongView extends SurfaceView implements Runnable{
     public void update(){
         // Move the mBat if required
         mBat.update(mFPS);
+        mOpponentBat.update(mFPS);
 
         mBall.update(mFPS);
         // Check for mBall colliding with mBat
@@ -117,7 +120,7 @@ public class PongView extends SurfaceView implements Runnable{
             mBall.clearObstacleY(mBat.getRect().top - 2);
 
             mScore++;
-            mBall.increaseVelocity();
+//            mBall.increaseVelocity();
             // play a sound
 //            sp.play(beep1ID, 1, 1, 0, 0, 1);
         }
@@ -150,7 +153,7 @@ public class PongView extends SurfaceView implements Runnable{
             // play a sound
 //            sp.play(beep3ID, 1, 1, 0, 0, 1);
         }
-        if(mBall.getRect().left < 0){
+        if(mBall.getRect().right > mScreenX-1){
             mBall.reverseXVelocity();
             mBall.clearObstacleX(mScreenX - 22);
             // play a sound
@@ -176,7 +179,7 @@ public class PongView extends SurfaceView implements Runnable{
 
             // Draw the mBat
             mCanvas.drawRect(mBat.getRect(), mPaint);
-
+            mCanvas.drawRect(mOpponentBat.getRect(), mPaint);
             // Draw the mBall
             mCanvas.drawRect(mBall.getRect(), mPaint);
 
