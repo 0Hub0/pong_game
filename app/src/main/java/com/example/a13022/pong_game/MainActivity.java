@@ -1,5 +1,6 @@
 package com.example.a13022.pong_game;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,6 +11,9 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -51,6 +55,19 @@ public class MainActivity extends AppCompatActivity {
                             setUsername(username.getText().toString());
                             Toast.makeText(MainActivity.this, "You clicked : " + getUsername(), Toast.LENGTH_SHORT).show();
                             //TODO : If the player plays against the computer, the next page should be the game
+                            Timer timer = new Timer();
+                            /**
+                             * @param New Timer task
+                             * @param Delay
+                             */
+                            timer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    Intent i = new Intent(MainActivity.this, GameActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                }
+                            },1000);
                         }
                         return true;
                     }
