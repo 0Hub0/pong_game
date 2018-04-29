@@ -1,14 +1,17 @@
 package com.example.a13022.pong_game;
 
+
 import android.graphics.RectF;
 
 import java.util.Random;
+
 
 /**
  * Created by Gaetan on 13-04-18.
  */
 //TODO : implémenter fonction reset pour repositionner la balle
 public class Ball {
+
 
     private RectF mRect;
     private float mXVelocity;
@@ -88,5 +91,6 @@ public class Ball {
         mRect.top = y - 20;
         mRect.right = x / 2 + mBallWidth;
         mRect.bottom = y - 20 - mBallHeight;
+
     }
 }

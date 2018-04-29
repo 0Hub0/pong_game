@@ -1,6 +1,7 @@
 # pong_game
-Simple application for a school projet
+Simple application for a school projet.
 
+The program is based on the following tutorial : http://androidgameprogramming.com/programming-a-pong-game/
 ## Application Specifications
 * Multiple Screens
 * Preferences
@@ -11,7 +12,7 @@ Simple application for a school projet
 ## Android Studio Specifications
  
   
-  ##### Android Version : 3.1
+  ##### Android Studio Version : 3.1
   ##### Gradle Config :
     Version : 4.4
     Android Plugin Version : 3.1.0

@@ -8,6 +8,7 @@ import android.graphics.RectF;
 
 public class Bat {
 
+
     // RectF is an object that holds four coordinates - just what we need
     private RectF mRect;
 
@@ -104,3 +105,4 @@ public class Bat {
         return mXCoord + mLength/2;
     }
 }
+
