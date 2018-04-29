@@ -41,6 +41,7 @@ public class Bat {
 // in the screen width and mHeight
     public Bat(int x, int y){
 
+        //Screen size
         mScreenX = x;
         mScreenY = y;
 
@@ -51,8 +52,8 @@ public class Bat {
 //        mHeight = mScreenY / 25;
         mHeight = 20;
 
-        // Start mBat in roughly the screen centre
-        mXCoord = mScreenX / 2;
+        // Start mBat in the screen centre
+        mXCoord = mScreenX / 2 - mLength/2;
         mYCoord = mScreenY - 20;
 
         mRect = new RectF(mXCoord, mYCoord, mXCoord + mLength, mYCoord + mHeight);
@@ -75,18 +76,21 @@ public class Bat {
     // This update method will be called from update in PongView
     // It determines if the Bat needs to move and changes the coordinates
     // contained in mRect if necessary
-    public void update(long fps){
+    public void update(long fps) {
         //Changed BatMoving to mBatMoving.
-        if(mBatMoving == LEFT){
+        if (mBatMoving == LEFT) {
             mXCoord = mXCoord - mBatSpeed / fps;
         }
 
-        if(mBatMoving == RIGHT){
+        if (mBatMoving == RIGHT) {
             mXCoord = mXCoord + mBatSpeed / fps;
         }
 
         // Make sure it's not leaving screen
-        if(mRect.left < 0){ mXCoord = 0; } if(mRect.right > mScreenX){
+        if (mRect.left < 0) {
+            mXCoord = 0;
+        }
+        if (mRect.right > mScreenX) {
             mXCoord = mScreenX -
                     // The width of the Bat
                     (mRect.right - mRect.left);
@@ -96,5 +100,7 @@ public class Bat {
         mRect.left = mXCoord;
         mRect.right = mXCoord + mLength;
     }
-
+    public float getXCoordonate(){
+        return mXCoord + mLength/2;
+    }
 }

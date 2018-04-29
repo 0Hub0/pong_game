@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Gaetan on 16-04-18.
@@ -53,6 +55,8 @@ public class PongView extends SurfaceView implements Runnable{
 
     // Lives
     int mLives = 3;
+
+    boolean passedOnce=false;
     public PongView(Context context, int x, int y){
         // Call SurfaceView constructor
         super(context);
@@ -110,16 +114,28 @@ public class PongView extends SurfaceView implements Runnable{
     public void update(){
         // Move the mBat if required
         mBat.update(mFPS);
+        mBall.update(mFPS);
+        float xBat = mOpponentBat.getXCoordonate();
+        float xBall = mBall.getXCoordonate();
+        moveBat(xBall, xBat);
         mOpponentBat.update(mFPS);
 
-        mBall.update(mFPS);
-        // Check for mBall colliding with mBat
+        // Check for mBall colliding with our mBat
         if(RectF.intersects(mBat.getRect(), mBall.getRect())) {
             mBall.setRandomXVelocity();
             mBall.reverseYVelocity();
-            mBall.clearObstacleY(mBat.getRect().top - 2);
+            mBall.clearObstacleY(mBat.getRect().top + 2);
 
             mScore++;
+//            mBall.increaseVelocity();
+            // play a sound
+//            sp.play(beep1ID, 1, 1, 0, 0, 1);
+        }
+        // Check for mBall colliding with the mOpponentBat
+        if(RectF.intersects(mOpponentBat.getRect(), mBall.getRect())) {
+            mBall.setRandomXVelocity();
+            mBall.reverseYVelocity();
+            mBall.clearObstacleY(mOpponentBat.getRect().bottom +22 );
 //            mBall.increaseVelocity();
             // play a sound
 //            sp.play(beep1ID, 1, 1, 0, 0, 1);
@@ -244,5 +260,23 @@ public class PongView extends SurfaceView implements Runnable{
         mPlaying = true;
         mGameThread = new Thread(this);
         mGameThread.start();
+    }
+    public void moveBat(float xBall, float xBat){
+//        float substraction = ;
+//        while(substraction != 0){
+//            if (this.passedOnce==false){
+//                this.passedOnce=true;
+//                break;
+//            }
+        if(xBall - xBat > 0 ){
+            mOpponentBat.setMovementState(mOpponentBat.RIGHT);
+        }
+        else if(xBall - xBat < 0){
+            mOpponentBat.setMovementState(mOpponentBat.LEFT);
+        }
+        else{
+            mOpponentBat.setMovementState(mOpponentBat.STOPPED);
+        }
+//        }
     }
 }

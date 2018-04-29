@@ -79,7 +79,10 @@ public class Ball {
         mRect.left = x;
         mRect.right = x + mBallWidth;
     }
-
+    public float getXCoordonate(){
+        float averageX = (- mRect.left + mRect.right)/2 + mRect.left;
+        return averageX;
+    }
     public void reset(int x, int y){
         mRect.left = x / 2;
         mRect.top = y - 20;
