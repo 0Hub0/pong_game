@@ -57,7 +57,7 @@ public class PongView extends SurfaceView implements Runnable{
     int mScore = 0;
 
     // Lives
-    int mLives = 3;
+    int mLives;
 
     // For reaction time
     long time = 0;
@@ -102,10 +102,8 @@ public class PongView extends SurfaceView implements Runnable{
                     e.printStackTrace();
                 }
             }
-
             // Draw the frame
             draw();
-
         /*
             Calculate the FPS this frame
             We can then use the result to
@@ -154,15 +152,21 @@ public class PongView extends SurfaceView implements Runnable{
         }
         // Bounce the mBall back when it hits the bottom of screen
         if(mBall.getRect().bottom > mScreenY){
-            this.flagIntersection = true;
-            mBall.reverseYVelocity();
-            mBall.clearObstacleY(mScreenY - 2);
+//            mBall.reset(this.mScreenY, this.mScreenX);
+            mLives--;
+//            if(mLives == 0){
+            setupAndRestart();
+//            }
+////            TimeUnit.SECONDS.sleep(1);
+//            mBall.reverseYVelocity();
+//            mBall.clearObstacleY(mScreenY - 2);
         }
         // Bounce the mBall back when it hits the top of screen
         if(mBall.getRect().top < 0){
-            this.flagIntersection = true;
-            mBall.reverseYVelocity();
-            mBall.clearObstacleY(12);
+            setupAndRestart();
+//            this.flagIntersection = true;
+//            mBall.reverseYVelocity();
+//            mBall.clearObstacleY(12);
         }
         // If the mBall hits left wall bounce
         if(mBall.getRect().left < 0){
@@ -175,6 +179,7 @@ public class PongView extends SurfaceView implements Runnable{
             mBall.reverseXVelocity();
             mBall.clearObstacleX(mScreenX - 22);
         }
+        // Check if reaction time of opponent bat has been exceeded
         if(this.flagIntersection == true){
             if(currentTimeMillis - this.time >= this.reactionTimeOpponentBat){
                 this.flagMove = true;
@@ -192,6 +197,11 @@ public class PongView extends SurfaceView implements Runnable{
         // Make sure our drawing surface is valid or we crash
         if (mOurHolder.getSurface().isValid()) {
 
+            RectF middleLigne = new RectF();
+            middleLigne.top=mScreenY/2;
+            middleLigne.bottom = mScreenY/2-20;
+            middleLigne.right = mScreenX;
+            middleLigne.left = 0;
             // Draw everything here
 
             // Lock the mCanvas ready to draw
@@ -210,7 +220,7 @@ public class PongView extends SurfaceView implements Runnable{
             // Draw the mBall
             mCanvas.drawRect(mBall.getRect(), mPaint);
 
-
+            mCanvas.drawRect(middleLigne, mPaint);
             // Change the drawing color to white
             mPaint.setColor(Color.argb(255, 255, 255, 255));
 
