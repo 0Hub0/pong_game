@@ -20,7 +20,7 @@ public class GameActivity extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
         // Initialize pongView and set it as the view
-        pongView = new PongView(this,size.x,size.y);
+        pongView = new PongView(this,size.x,size.y, (byte) 0);
         setContentView(pongView);
     }
 //    // This method executes when the player starts the game
