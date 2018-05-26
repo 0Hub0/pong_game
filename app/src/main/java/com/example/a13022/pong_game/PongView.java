@@ -13,6 +13,9 @@ import android.view.SurfaceView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Gaetan on 16-04-18.
  */
@@ -57,8 +60,12 @@ public class PongView extends SurfaceView implements Runnable{
     // Lives
     int mLives = 3;
 
-    boolean passedOnce=false;
-    public PongView(Context context, int x, int y){
+    // For reaction time
+    long time = 0;
+    boolean flagMove = true;
+    boolean flagIntersection = false;
+    float reactionTimeOpponentBat=0f;
+    public PongView(Context context, int x, int y, byte difficulty){
         // Call SurfaceView constructor
         super(context);
 
@@ -69,9 +76,16 @@ public class PongView extends SurfaceView implements Runnable{
         this.mPaint=new Paint();
 
         this.mBat = new Bat(this.mScreenX, this.mScreenY );
-        this.mOpponentBat = new Bat(this.mScreenX, 20);
+        this.mOpponentBat = new Bat(this.mScreenX, 40);
         // Create a mBall
         mBall = new Ball(mScreenX, mScreenY);
+        mBall.reset( this.mScreenX, mScreenY);
+        // TODO : add difficulties here
+        if(difficulty == 0) {
+            ArrayList array = Difficulty.easy();
+            this.reactionTimeOpponentBat = (float) array.get(0);
+            mBall.increaseVelocity((byte) array.get(1));
+        }
         setupAndRestart();
     }
 
@@ -83,7 +97,11 @@ public class PongView extends SurfaceView implements Runnable{
 
             // Update the frame
             if(!mPaused){
-                update();
+                try {
+                    update();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
             // Draw the frame
@@ -112,69 +130,61 @@ public class PongView extends SurfaceView implements Runnable{
     }
     // Everything that needs to be updated goes in here
     // Movement, collision detection etc.
-    public void update(){
+    public void update() throws InterruptedException {
         // Move the mBat if required
         mBat.update(mFPS);
-        mBall.update(mFPS);
+        mBall.update(20);
         float xBat = mOpponentBat.getXCoordonate();
         float xBall = mBall.getXCoordonate();
+        long currentTimeMillis = System.currentTimeMillis();
+        // The opponents bat moves according to position of the ball
         moveBat(xBall, xBat);
         mOpponentBat.update(mFPS);
-
         // Check for mBall colliding with our mBat
         if(RectF.intersects(mBat.getRect(), mBall.getRect())) {
-            mBall.setRandomXVelocity();
             mBall.reverseYVelocity();
-            mBall.clearObstacleY(mBat.getRect().top + 2);
-
+            mBall.setRandomXVelocity();
+            mBall.clearObstacleY(mBat.getRect().top - 2);
             mScore++;
-//            mBall.increaseVelocity();
-            // play a sound
-//            sp.play(beep1ID, 1, 1, 0, 0, 1);
         }
         // Check for mBall colliding with the mOpponentBat
         if(RectF.intersects(mOpponentBat.getRect(), mBall.getRect())) {
             mBall.setRandomXVelocity();
             mBall.reverseYVelocity();
             mBall.clearObstacleY(mOpponentBat.getRect().bottom +22 );
-//            mBall.increaseVelocity();
-            // play a sound
-//            sp.play(beep1ID, 1, 1, 0, 0, 1);
         }
         // Bounce the mBall back when it hits the bottom of screen
         if(mBall.getRect().bottom > mScreenY){
+            this.flagIntersection = true;
             mBall.reverseYVelocity();
             mBall.clearObstacleY(mScreenY - 2);
-
-            // Lose a life
-            mLives--;
-            // play a sound
-//            sp.play(loseLifeID, 1, 1, 0, 0, 1);
-
-            if(mLives == 0){
-                mPaused = true;
-                setupAndRestart();
-            }
         }
         // Bounce the mBall back when it hits the top of screen
         if(mBall.getRect().top < 0){
+            this.flagIntersection = true;
             mBall.reverseYVelocity();
             mBall.clearObstacleY(12);
-            // play a sound
-//            sp.play(beep2ID, 1, 1, 0, 0, 1);
         }
         // If the mBall hits left wall bounce
         if(mBall.getRect().left < 0){
+            this.flagIntersection = true;
             mBall.reverseXVelocity();
             mBall.clearObstacleX(2);
-            // play a sound
-//            sp.play(beep3ID, 1, 1, 0, 0, 1);
         }
         if(mBall.getRect().right > mScreenX-1){
+            this.flagIntersection = true;
             mBall.reverseXVelocity();
             mBall.clearObstacleX(mScreenX - 22);
-            // play a sound
-//            sp.play(beep3ID, 1, 1, 0, 0, 1);
+        }
+        if(this.flagIntersection == true){
+            if(currentTimeMillis - this.time >= this.reactionTimeOpponentBat){
+                this.flagMove = true;
+                this.time = currentTimeMillis;
+                this.flagIntersection = false;
+            }
+            else{
+                this.flagMove = false;
+            }
         }
     }
     // Draw the newly updated scene
@@ -189,6 +199,7 @@ public class PongView extends SurfaceView implements Runnable{
             mCanvas = mOurHolder.lockCanvas();
 
             // Clear the screen with my favorite color
+            // Background color game
             mCanvas.drawColor(Color.argb(255, 120, 197, 87));
 
             // Choose the brush color for drawing
@@ -206,6 +217,7 @@ public class PongView extends SurfaceView implements Runnable{
 
             // Draw the mScore
             mPaint.setTextSize(40);
+            // TODO : text inserted on game over here
             mCanvas.drawText("Score: " + mScore + "   Lives: " + mLives, 10, 50, mPaint);
 
             // Draw everything to the screen
@@ -263,22 +275,15 @@ public class PongView extends SurfaceView implements Runnable{
         mGameThread.start();
     }
     public void moveBat(float xBall, float xBat){
-//        float substraction = ;
-//        while(substraction != 0){
-//            if (this.passedOnce==false){
-//                this.passedOnce=true;
-//                break;
-//            }
-        if(xBall - xBat > 0 ){
+        if(xBall - xBat > 0 && this.flagMove == true){
             mOpponentBat.setMovementState(mOpponentBat.RIGHT);
         }
-        else if(xBall - xBat < 0){
+        else if(xBall - xBat < 0 &&  this.flagMove == true){
             mOpponentBat.setMovementState(mOpponentBat.LEFT);
         }
         else{
             mOpponentBat.setMovementState(mOpponentBat.STOPPED);
         }
-//        }
     }
 
 // import android.util.AttributeSet;
