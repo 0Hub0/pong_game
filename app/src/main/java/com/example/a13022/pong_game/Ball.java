@@ -21,7 +21,7 @@ public class Ball {
     public Ball(int screenX, int screenY){
 
         // Make the mBall size relative to the screen resolution
-        mBallWidth = screenX / 7;
+        mBallWidth = screenX / 70;
         mBallHeight = mBallWidth;
 
     /*
@@ -88,9 +88,8 @@ public class Ball {
     }
     public void reset(int x, int y){
         mRect.left = x / 2;
-        mRect.top = y - 20;
+        mRect.top = y - 1000;
         mRect.right = x / 2 + mBallWidth;
-        mRect.bottom = y - 20 - mBallHeight;
-
+        mRect.bottom = y - 1000 - mBallHeight;
     }
 }
