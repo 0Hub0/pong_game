@@ -46,20 +46,20 @@ public class Bat {
         mScreenY = y;
 
         // 1/8 screen width wide
-        mLength = mScreenX / 8;
+        mLength = mScreenX / 7;
 
         // 1/25 screen mHeight high
 //        mHeight = mScreenY / 25;
-        mHeight = 20;
+        mHeight = 40;
 
         // Start mBat in the screen centre
         mXCoord = mScreenX / 2 - mLength/2;
-        mYCoord = mScreenY - 20;
+        mYCoord = mScreenY - 40;
 
         mRect = new RectF(mXCoord, mYCoord, mXCoord + mLength, mYCoord + mHeight);
 
         // How fast is the mBat in pixels per second
-        mBatSpeed = mScreenX;
+        mBatSpeed = mScreenX/2;
         // Cover entire screen in 1 second
     }
     // This is a getter method to make the rectangle that
@@ -78,6 +78,7 @@ public class Bat {
     // contained in mRect if necessary
     public void update(long fps) {
         //Changed BatMoving to mBatMoving.
+
         if (mBatMoving == LEFT) {
             mXCoord = mXCoord - mBatSpeed / fps;
         }

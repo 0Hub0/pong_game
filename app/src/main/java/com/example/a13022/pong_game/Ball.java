@@ -18,7 +18,7 @@ public class Ball {
     public Ball(int screenX, int screenY){
 
         // Make the mBall size relative to the screen resolution
-        mBallWidth = screenX / 100;
+        mBallWidth = screenX / 7;
         mBallHeight = mBallWidth;
 
     /*
@@ -66,9 +66,9 @@ public class Ball {
     // Speed up by 10%
     // A score of over 20 is quite difficult
     // Reduce or increase 10 to make this easier or harder
-    public void increaseVelocity(){
-        mXVelocity = mXVelocity + mXVelocity / 10;
-        mYVelocity = mYVelocity + mYVelocity / 10;
+    public void increaseVelocity(byte x){
+        mXVelocity = mXVelocity + mXVelocity / 10*(float) x;
+        mYVelocity = mYVelocity + mYVelocity / 10*(float) x;
     }
     public void clearObstacleY(float y){
         mRect.bottom = y;
