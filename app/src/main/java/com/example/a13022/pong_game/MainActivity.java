@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -32,6 +34,16 @@ public class MainActivity extends AppCompatActivity {
         goButton();
         Toast.makeText(MainActivity.this, getUser2(), Toast.LENGTH_SHORT).show();
         this.setTheme(R.style.AppTheme);
+
+        //Remove title bar
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        //Remove notification bar
+        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //set content view AFTER ABOVE sequence (to avoid crash)
+        //this.setContentView(R.layout.activity_game);
+
     }
     // Creates the popup_menu popup_menu in order to select whether we want to play with another person or solo.
     public void popUpMenu(){
