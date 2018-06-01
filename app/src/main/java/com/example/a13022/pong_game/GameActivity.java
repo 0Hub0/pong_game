@@ -1,5 +1,6 @@
 package com.example.a13022.pong_game;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,8 @@ import android.os.Bundle;
 import android.view.Display;
 
 import java.util.Random;
+
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
 public class GameActivity extends AppCompatActivity {
     PongView pongView;
@@ -19,9 +22,17 @@ public class GameActivity extends AppCompatActivity {
 
         Point size = new Point();
         display.getSize(size);
-        // Initialize pongView and set it as the view
-        pongView = new PongView(this,size.x,size.y, (byte) 0);
-        setContentView(pongView);
+        Intent i = new Intent(GameActivity.this, StandBy.class);
+        pongView = new PongView(this, size.x, size.y, (byte) 0);
+        if(getResources().getConfiguration().orientation==ORIENTATION_LANDSCAPE) {
+            // Initialize pongView and set it as the view
+//            pongView = new PongView(this, size.x, size.y, (byte) 0);
+            setContentView(pongView);
+        }
+        else{
+            startActivity(i);
+            finish();
+        }
     }
 //    // This method executes when the player starts the game
     @Override

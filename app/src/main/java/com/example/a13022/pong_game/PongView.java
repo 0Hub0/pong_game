@@ -56,9 +56,11 @@ public class PongView extends SurfaceView implements Runnable{
 
     // The mScore
     int mScore = 0;
+    int computerScore=0;
 
     // Lives
     int mLives;
+    int computerLives;
 
     // For reaction time
     long time = 0;
@@ -123,7 +125,9 @@ public class PongView extends SurfaceView implements Runnable{
         // if game over reset scores and mLives
         if(this.mLives == 0) {
             this.mScore = 0;
+            this.computerScore=this.mScore;
             this.mLives = 3;
+            this.computerLives = this.mLives;
         }
     }
     // Everything that needs to be updated goes in here
@@ -143,7 +147,6 @@ public class PongView extends SurfaceView implements Runnable{
             mBall.reverseYVelocity();
             mBall.setRandomXVelocity();
             mBall.clearObstacleY(mBat.getRect().top - 2);
-            mScore++;
         }
         // Check for mBall colliding with the mOpponentBat
         if(RectF.intersects(mOpponentBat.getRect(), mBall.getRect())) {
@@ -153,21 +156,15 @@ public class PongView extends SurfaceView implements Runnable{
         }
         // Bounce the mBall back when it hits the bottom of screen
         if(mBall.getRect().bottom > mScreenY){
-//            mBall.reset(this.mScreenY, this.mScreenX);
             mLives--;
-//            if(mLives == 0){
+            computerScore++;
             setupAndRestart();
-//            }
-////            TimeUnit.SECONDS.sleep(1);
-//            mBall.reverseYVelocity();
-//            mBall.clearObstacleY(mScreenY - 2);
         }
         // Bounce the mBall back when it hits the top of screen
         if(mBall.getRect().top < 0){
             setupAndRestart();
-//            this.flagIntersection = true;
-//            mBall.reverseYVelocity();
-//            mBall.clearObstacleY(12);
+            computerLives--;
+            mScore++;
         }
         // If the mBall hits left wall bounce
         if(mBall.getRect().left < 0){
@@ -210,7 +207,7 @@ public class PongView extends SurfaceView implements Runnable{
 
             // Clear the screen with my favorite color
             // Background color game
-            mCanvas.drawColor(Color.argb(255, 120, 197, 87));
+            mCanvas.drawColor(Color.argb(255, 30,144,255));
 
             // Choose the brush color for drawing
             mPaint.setColor(Color.argb(255, 255, 255, 255));
@@ -228,7 +225,8 @@ public class PongView extends SurfaceView implements Runnable{
             // Draw the mScore
             mPaint.setTextSize(40);
             // TODO : text inserted on game over here
-            mCanvas.drawText("Score: " + mScore + "   Lives: " + mLives, 10, 50, mPaint);
+            mCanvas.drawText("Score: " + mScore + "   Lives: " + mLives, 10, mScreenY/2+50, mPaint);
+            mCanvas.drawText("Score: " + computerScore + "   Lives: " + computerLives, 10, 50, mPaint);
 
             // Draw everything to the screen
             mOurHolder.unlockCanvasAndPost(mCanvas);
@@ -284,88 +282,13 @@ public class PongView extends SurfaceView implements Runnable{
         mGameThread = new Thread(this);
         mGameThread.start();
     }
-    public void moveBat(float xBall, float xBat){
-        if(xBall - xBat > 0 && this.flagMove == true){
+    public void moveBat(float xBall, float xBat) {
+        if (xBall - xBat > 0 && this.flagMove == true) {
             mOpponentBat.setMovementState(mOpponentBat.RIGHT);
-        }
-        else if(xBall - xBat < 0 &&  this.flagMove == true){
+        } else if (xBall - xBat < 0 && this.flagMove == true) {
             mOpponentBat.setMovementState(mOpponentBat.LEFT);
-        }
-        else{
+        } else {
             mOpponentBat.setMovementState(mOpponentBat.STOPPED);
         }
     }
-
-// import android.util.AttributeSet;
-// import android.view.KeyEvent;
-// import android.view.Surface;
-// import android.view.SurfaceHolder;
-// import android.view.SurfaceView;
-// import android.widget.TextView;
-
-// import org.w3c.dom.Text;
-
-// import android.os.Handler;
-
-// /**
-//  * Created by 13022 on 17-04-18.
-//  */
-
-// public class PongView extends SurfaceView implements SurfaceHolder.Callback{
-
-//     private PongThread gameThread;
-
-//     public PongView(Context context, AttributeSet attributeSet){
-//         // Call constructor of parent class and pass 2 parameters
-//         super(context,attributeSet);
-
-//         /* Abstract Interfaceimport android.os.Handler; for a display surface
-//          * & allowing us to control the surface size/format, edit pixels, monitor changes */
-//         SurfaceHolder holder = getHolder();
-
-//         /* Callback notifies a Class synchronous/asynchronous of an action from another class
-//          is completed with success or error*/
-//         holder.addCallback(this);
-
-//         /* This view can receive the focus
-//         * Focus :A particular GUI element has been selected => Gains focus*/
-//         setFocusable(true);
-
-//         /* Instantiates Game Thread
-//         * Handler(): Allows us to send/process Message & Runnable ojbects associated
-//         * with a thread's MessageQueue
-//         * => Each Handler Instance is linked to a single thread and that thread's message queue*/
-//         gameThread = new PongThread(holder, context, new Handler());
-
-//     }
-
-//     @Override
-//     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
-//         gameThread.setSurfaceSize(width,height);
-//     }
-
-//     @Override
-//     public void surfaceCreated(SurfaceHolder holder){
-//         gameThread.setRunning(true);
-//         gameThread.start();
-//     }
-
-//     @Override
-//     public void surfaceDestroyed(SurfaceHolder holder){
-//         boolean retry=true;
-//         gameThread.setRunning(false);
-//         while(retry){
-//             try{
-//                 gameThread.join();
-//                 retry=false;
-//             } catch (InterruptedException e) {
-//                 // To finish?
-//             }
-//         }
-
-
-//     }
-
-
-
 }
