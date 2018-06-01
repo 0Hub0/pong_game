@@ -3,6 +3,7 @@ package com.example.a13022.pong_game;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.Ringtone;
@@ -36,6 +37,11 @@ import java.util.List;
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
+
+    public static String getDefaults(String key, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(key, null);
+    }
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -123,6 +129,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         super.onCreate(savedInstanceState);
 
         setupActionBar();
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
+
+
+
     }
 
     /**
@@ -133,6 +146,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         if (actionBar != null) {
             // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+
         }
     }
 
@@ -160,8 +175,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName);
-                //|| DataSyncPreferenceFragment.class.getName().equals(fragmentName)
-                //|| NotificationPreferenceFragment.class.getName().equals(fragmentName);
+        //|| DataSyncPreferenceFragment.class.getName().equals(fragmentName)
+        //|| NotificationPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -175,13 +190,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
 
             addPreferencesFromResource(R.xml.pref_general);
+
             setHasOptionsMenu(true);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("example_list"));
+            bindPreferenceSummaryToValue(findPreference("difficulty"));
             bindPreferenceSummaryToValue(findPreference("color_pong"));
             bindPreferenceSummaryToValue(findPreference("score_max"));
         }

@@ -2,10 +2,12 @@ package com.example.a13022.pong_game;
 
 import android.content.Context;
 
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -67,9 +69,34 @@ public class PongView extends SurfaceView implements Runnable{
     boolean flagMove = true;
     boolean flagIntersection = false;
     float reactionTimeOpponentBat=0f;
+
+    int pref_maxScore;
+    int prefColor;
+    String prefDifficulty;
+
+    int mBatColor;
+
+
+
     public PongView(Context context, int x, int y, byte difficulty){
         // Call SurfaceView constructor
         super(context);
+
+        /* Get the preferences from the Setting Activity*/
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        // The second paramter is the default value
+        this.pref_maxScore = Integer.parseInt(preferences.getString("score_max","5"));
+        this.prefColor = Integer.parseInt(preferences.getString("color_pong","0")) ;
+        this.prefDifficulty = preferences.getString("difficulty","easy");
+
+
+
+
+        Log.d("COLOUR",String.valueOf(prefColor));
+        Log.d("SCOREMAX",String.valueOf(pref_maxScore));
+        Log.d("DIFFICULTY",String.valueOf(prefDifficulty));
+
+
 
         this.mScreenX =x;
         this.mScreenY=y;
@@ -90,6 +117,46 @@ public class PongView extends SurfaceView implements Runnable{
         }
         setupAndRestart();
     }
+
+
+
+    public ArrayList<Integer> setColor() {
+        ArrayList<Integer> batColor = new ArrayList<Integer>();
+        int transp = 255;
+        int r = 0;
+        int g = 0;
+        int b = 0;
+
+        if (this.prefColor == 0){
+            //white
+            r = 255;
+            g = 255;
+            b = 255;
+        }
+        if (this.prefColor==1) {
+            //red
+            r = 255;
+            g = 0;
+            b = 0;
+        }
+        if (this.prefColor == 2) {
+            // blue
+            r = 0;
+            g = 0;
+            b = 255;
+        }
+
+        batColor.add(transp);
+        batColor.add(r);
+        batColor.add(g);
+        batColor.add(b);
+
+        return batColor ;
+    }
+
+
+
+
 
     public void run(){
         while (mPlaying) {
@@ -209,8 +276,19 @@ public class PongView extends SurfaceView implements Runnable{
             // Background color game
             mCanvas.drawColor(Color.argb(255, 30,144,255));
 
+
+
+            ArrayList<Integer> finalBatColor = setColor() ;
+
             // Choose the brush color for drawing
-            mPaint.setColor(Color.argb(255, 255, 255, 255));
+            mPaint.setColor(Color.argb(
+                    finalBatColor.get(0),
+                    finalBatColor.get(1),
+                    finalBatColor.get(2),
+                    finalBatColor.get(3)));
+
+
+
 
             // Draw the mBat
             mCanvas.drawRect(mBat.getRect(), mPaint);
@@ -218,9 +296,11 @@ public class PongView extends SurfaceView implements Runnable{
             // Draw the mBall
             mCanvas.drawRect(mBall.getRect(), mPaint);
 
-            mCanvas.drawRect(middleLigne, mPaint);
             // Change the drawing color to white
             mPaint.setColor(Color.argb(255, 255, 255, 255));
+
+
+            mCanvas.drawRect(middleLigne, mPaint);
 
             // Draw the mScore
             mPaint.setTextSize(40);
